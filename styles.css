@@ -1,53 +1,41 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+}
+
+.game-container {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.item-box {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0;
-    padding: 20px;
+    margin-bottom: 20px;
 }
 
-h1 {
-    margin: 20px 0;
-}
-
-#item-image {
-    width: 150px;
-    height: 150px;
+.item-image {
+    width: 100px;
+    height: 100px;
     object-fit: cover;
-    margin-bottom: 10px;
 }
 
-#calorie-input {
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: calc(100% - 24px);
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-#guesses {
+.guess-boxes {
     display: flex;
     justify-content: space-around;
-    margin-top: 20px;
-    width: 100%;
+    margin-bottom: 20px;
 }
 
-.guess-box {
+.guess {
     width: 50px;
     height: 50px;
     border: 1px solid #ccc;
@@ -55,37 +43,27 @@ button:hover {
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+}
+
+.input-box {
+    margin-bottom: 20px;
+}
+
+.result {
     font-size: 1.2em;
-    margin: 0 5px;
+    margin-bottom: 20px;
 }
 
-.red-arrow-up {
-    background-color: red;
+#share-button {
+    background-color: #4CAF50;
     color: white;
-}
-
-.red-arrow-down {
-    background-color: red;
-    color: white;
-}
-
-.yellow-arrow-up {
-    background-color: yellow;
-    color: black;
-}
-
-.yellow-arrow-down {
-    background-color: yellow;
-    color: black;
-}
-
-.green-check {
-    background-color: green;
-    color: white;
-}
-
-#feedback {
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
     margin-top: 20px;
-    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
 }
-
