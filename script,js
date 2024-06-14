@@ -6,7 +6,7 @@ function checkGuess() {
     const guess = document.getElementById('calorie-input').value;
     const feedback = document.getElementById('feedback');
 
-    if (guess == '') {
+    if (guess === '') {
         feedback.textContent = 'Please enter a guess.';
         return;
     }
@@ -45,5 +45,10 @@ function checkGuess() {
     if (attemptsLeft == 0 && Math.abs(guess - correctCalories) > correctCalories * 0.05) {
         feedback.textContent = `Sorry, you've run out of attempts. The correct answer was ${correctCalories} calories.`;
         feedback.style.color = 'red';
+    }
+
+    if (currentAttempt > 6 || Math.abs(guess - correctCalories) <= correctCalories * 0.05) {
+        document.getElementById('calorie-input').disabled = true;
+        document.querySelector('button').disabled = true;
     }
 }
