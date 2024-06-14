@@ -1,26 +1,43 @@
 const correctCalories = 200; // Example calories for the item
 let attemptsLeft = 6;
+let currentAttempt = 1;
 
 function checkGuess() {
     const guess = document.getElementById('calorie-input').value;
     const feedback = document.getElementById('feedback');
-    const attempts = document.getElementById('attempts');
 
     if (guess == '') {
         feedback.textContent = 'Please enter a guess.';
         return;
     }
 
+    const guessBox = document.getElementById(`guess${currentAttempt}`);
     attemptsLeft--;
-    attempts.textContent = `Attempts left: ${attemptsLeft}`;
+    currentAttempt++;
 
     if (Math.abs(guess - correctCalories) <= correctCalories * 0.05) {
+        guessBox.className = 'guess-box green-check';
+        guessBox.textContent = '✔';
         feedback.textContent = 'Congratulations! You guessed correctly!';
         feedback.style.color = 'green';
     } else if (guess < correctCalories) {
+        if (guess < correctCalories * 0.9) {
+            guessBox.className = 'guess-box red-arrow-up';
+            guessBox.textContent = '↑';
+        } else {
+            guessBox.className = 'guess-box yellow-arrow-up';
+            guessBox.textContent = '↑';
+        }
         feedback.textContent = 'Too low!';
         feedback.style.color = 'orange';
     } else {
+        if (guess > correctCalories * 1.1) {
+            guessBox.className = 'guess-box red-arrow-down';
+            guessBox.textContent = '↓';
+        } else {
+            guessBox.className = 'guess-box yellow-arrow-down';
+            guessBox.textContent = '↓';
+        }
         feedback.textContent = 'Too high!';
         feedback.style.color = 'orange';
     }
