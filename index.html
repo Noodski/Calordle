@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Guessing Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Guess the Calories!</h1>
+        <p id="item-name">Item: Chocolate Chip Cookie</p>
+        <input type="number" id="calorie-input" placeholder="Enter your guess" min="0">
+        <button onclick="checkGuess()">Submit Guess</button>
+        <p id="feedback"></p>
+        <p id="attempts">Attempts left: 6</p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
