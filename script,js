@@ -1,54 +1,72 @@
-const correctCalories = 200; // Example calories for the item
-let attemptsLeft = 6;
-let currentAttempt = 1;
+const targetCalories = 95; // Example target calories for Apple
+let guesses = [];
+const maxGuesses = 6;
 
-function checkGuess() {
-    const guess = document.getElementById('calorie-input').value;
-    const feedback = document.getElementById('feedback');
-
-    if (guess === '') {
-        feedback.textContent = 'Please enter a guess.';
+function submitGuess() {
+    const input = document.getElementById('calorie-input');
+    const guess = parseInt(input.value);
+    
+    if (isNaN(guess)) {
+        alert("Please enter a valid number");
         return;
     }
-
-    const guessBox = document.getElementById(`guess${currentAttempt}`);
-    attemptsLeft--;
-    currentAttempt++;
-
-    if (Math.abs(guess - correctCalories) <= correctCalories * 0.05) {
-        guessBox.className = 'guess-box green-check';
-        guessBox.textContent = '✔';
-        feedback.textContent = 'Congratulations! You guessed correctly!';
-        feedback.style.color = 'green';
-    } else if (guess < correctCalories) {
-        if (guess < correctCalories * 0.9) {
-            guessBox.className = 'guess-box red-arrow-up';
-            guessBox.textContent = '↑';
-        } else {
-            guessBox.className = 'guess-box yellow-arrow-up';
-            guessBox.textContent = '↑';
-        }
-        feedback.textContent = 'Too low!';
-        feedback.style.color = 'orange';
+    
+    if (guesses.length >= maxGuesses) {
+        return;
+    }
+    
+    guesses.push(guess);
+    updateGuesses();
+    
+    input.value = '';
+    
+    const diff = guess - targetCalories;
+    const percentageDiff = Math.abs(diff / targetCalories * 100);
+    
+    let result = '';
+    if (percentageDiff <= 3) {
+        result = '✅';
+        document.querySelector('.guess-count').textContent = `You win! Congratulations!🎉 The number of calories was ${targetCalories}`;
+        document.getElementById('share-button').style.display = 'inline-block';
+    } else if (diff > 0) {
+        result = percentageDiff <= 10 ? '🟨⬇️' : '🟥⬇️';
     } else {
-        if (guess > correctCalories * 1.1) {
-            guessBox.className = 'guess-box red-arrow-down';
-            guessBox.textContent = '↓';
+        result = percentageDiff <= 10 ? '🟨⬆️' : '🟥⬆️';
+    }
+    
+    document.getElementById(`guess${guesses.length}`).textContent = guess;
+    document.getElementById(`guess${guesses.length}`).classList.add(result);
+    
+    if (guesses.length >= maxGuesses && percentageDiff > 3) {
+        document.querySelector('.guess-count').textContent = "You lost. Maybe next time!";
+        document.getElementById('share-button').style.display = 'inline-block';
+    } else {
+        document.querySelector('.guess-count').textContent = `Guess ${guesses.length}/${maxGuesses}`;
+    }
+}
+
+function updateGuesses() {
+    for (let i = 1; i <= maxGuesses; i++) {
+        document.getElementById(`guess${i}`).textContent = guesses[i - 1] || '';
+    }
+}
+
+function shareResult() {
+    const result = guesses.map(guess => {
+        const diff = guess - targetCalories;
+        const percentageDiff = Math.abs(diff / targetCalories * 100);
+        
+        if (percentageDiff <= 3) {
+            return '✅';
+        } else if (diff > 0) {
+            return percentageDiff <= 10 ? '🟨⬇️' : '🟥⬇️';
         } else {
-            guessBox.className = 'guess-box yellow-arrow-down';
-            guessBox.textContent = '↓';
+            return percentageDiff <= 10 ? '🟨⬆️' : '🟥⬆️';
         }
-        feedback.textContent = 'Too high!';
-        feedback.style.color = 'orange';
-    }
-
-    if (attemptsLeft == 0 && Math.abs(guess - correctCalories) > correctCalories * 0.05) {
-        feedback.textContent = `Sorry, you've run out of attempts. The correct answer was ${correctCalories} calories.`;
-        feedback.style.color = 'red';
-    }
-
-    if (currentAttempt > 6 || Math.abs(guess - correctCalories) <= correctCalories * 0.05) {
-        document.getElementById('calorie-input').disabled = true;
-        document.querySelector('button').disabled = true;
-    }
+    }).join('\n');
+    
+    const shareText = `Calordle ${guesses.length}/${maxGuesses}\n${result}`;
+    navigator.clipboard.writeText(shareText).then(() => {
+        alert('Result copied to clipboard!');
+    });
 }
